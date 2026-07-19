@@ -1,0 +1,24 @@
+# --- Core runtime (required to run the E2E skeleton) ---
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+httpx==0.28.1
+pydantic==2.10.4
+pydantic-settings==2.7.1
+jinja2==3.1.5
+python-dotenv==1.0.1
+
+# --- Telegram bot ---
+aiogram==3.15.0
+
+# --- Orchestrator LLM (Fable 5 / Haiku 4.5). Optional: the app runs with a
+#     deterministic mock when ANTHROPIC_API_KEY is unset. ---
+anthropic==0.42.0
+
+# --- Optional heavy deps (declared for the demo, NOT imported unless enabled) ---
+# multilingual-e5 embeddings + pgvector search:
+# sentence-transformers==3.3.1
+# psycopg[binary]==3.2.3
+# pgvector==0.3.6
+# OCR from photos:
+# pytesseract==0.3.13   (requires system `tesseract-ocr` with kaz+rus langpacks)
+# Pillow==11.1.0
