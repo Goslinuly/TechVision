@@ -13,6 +13,8 @@ disable polling and point Telegram at POST /webhook/{token} instead.
 from __future__ import annotations
 
 import asyncio
+import base64
+import binascii
 import logging
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -28,6 +30,7 @@ from .models import VERDICT_EMOJI
 from .orchestrator import analyze
 from .presenter import chat_card, highlight_source
 from .services import cache, metrics
+from .services.ocr import extract_text
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger("aqiqat")
@@ -64,7 +67,8 @@ app = FastAPI(title="Aqıqat", version="0.1.0", lifespan=lifespan)
 
 
 class AnalyzeIn(BaseModel):
-    text: str
+    text: str = ""
+    image_base64: str = ""  # optional: extract text via OCR (§1) when ENABLE_OCR
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -80,6 +84,7 @@ def health() -> dict:
         "llm_enabled": s.llm_enabled,
         "orchestrator_model": s.orchestrator_model if s.llm_enabled else None,
         "bot_enabled": s.bot_enabled,
+        "ocr_enabled": s.enable_ocr,
         "google_factcheck": bool(s.google_factcheck_api_key),
         "cards_stored": store.count(),
         **cache.stats(),
@@ -94,9 +99,21 @@ def metrics_endpoint() -> dict:
 
 @app.post("/analyze")
 def analyze_endpoint(body: AnalyzeIn) -> JSONResponse:
-    if not body.text.strip():
+    text = body.text.strip()
+    if not text and body.image_base64:
+        try:
+            image_bytes = base64.b64decode(body.image_base64, validate=True)
+        except (binascii.Error, ValueError):
+            raise HTTPException(status_code=400, detail="invalid base64 image")
+        text = extract_text(image_bytes).strip()
+        if not text:
+            raise HTTPException(
+                status_code=422,
+                detail="no text extracted (OCR disabled or empty image)",
+            )
+    if not text:
         raise HTTPException(status_code=400, detail="empty text")
-    card = analyze(body.text)
+    card = analyze(text)
     store.save(card)
     return JSONResponse(
         {

@@ -17,8 +17,10 @@ def extract_text(image_bytes: bytes) -> str:
 
         import pytesseract
         from PIL import Image
-    except ImportError:
+
+        img = Image.open(io.BytesIO(image_bytes))
+        # kaz+rus langpacks must be installed for tesseract.
+        return pytesseract.image_to_string(img, lang="kaz+rus").strip()
+    except Exception:  # noqa: BLE001 — missing deps / binary / bad image
+        # Degrade to no-text rather than break the request path.
         return ""
-    img = Image.open(io.BytesIO(image_bytes))
-    # kaz+rus langpacks must be installed for tesseract.
-    return pytesseract.image_to_string(img, lang="kaz+rus").strip()
