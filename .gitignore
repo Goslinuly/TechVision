@@ -6,3 +6,6 @@ venv/
 .DS_Store
 *.log
 .pytest_cache/
+
+# Generated Factcheck.kz corpus snapshot (build via scripts/build_corpus.py)
+data/factcheck_kz.json
