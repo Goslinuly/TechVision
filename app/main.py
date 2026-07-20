@@ -67,6 +67,11 @@ class AnalyzeIn(BaseModel):
     text: str
 
 
+@app.get("/", response_class=HTMLResponse)
+def index(request: Request):
+    return _TEMPLATES.TemplateResponse("index.html", {"request": request})
+
+
 @app.get("/health")
 def health() -> dict:
     s = get_settings()
