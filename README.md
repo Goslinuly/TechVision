@@ -71,6 +71,12 @@ curl -s localhost:8000/analyze -H 'content-type: application/json' \
 
 # 3) Telegram-бот: впишите TELEGRAM_BOT_TOKEN в .env и запустите python run.py —
 #    бот стартует в режиме long-polling автоматически.
+
+# 4) Собрать реальный корпус Factcheck.kz (иначе используется демо-выборка):
+python -m scripts.build_corpus --limit 30     # → data/factcheck_kz.json
+
+# 5) Прогнать eval-набор (§4, adversarial):
+python -m scripts.eval
 ```
 
 ### Режимы работы
@@ -93,6 +99,7 @@ curl -s localhost:8000/analyze -H 'content-type: application/json' \
 | Дешёвые подшаги | **Claude Haiku 4.5**               | ✅ (claim extraction)       |
 | Внешний API     | **Google Fact Check Tools API**    | ✅ РЕАЛЬНО подключён        |
 | Rhetoric        | правила + span'ы (kk/ru)           | ✅ реализовано              |
+| Парсер Factcheck.kz | httpx + og-meta + verdict-метки | ✅ `scripts/build_corpus.py` |
 | Локальная модель| **KazLLM-8B-GGUF** (llama.cpp)     | 🟡 stub (`orchestrator/tools.py`) |
 | Эмбеддинги      | **multilingual-e5** (ru+kk)        | 🟡 замена: лексический скоринг |
 | Vector DB       | **pgvector** (Supabase)            | 🟡 замена: локальный JSON-корпус |

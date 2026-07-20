@@ -15,7 +15,10 @@ from pathlib import Path
 
 from ..models import Evidence, Verdict
 
-_DATA = Path(__file__).resolve().parents[2] / "data" / "factcheck_kz_sample.json"
+_DATA_DIR = Path(__file__).resolve().parents[2] / "data"
+# Prefer the parsed corpus (scripts/build_corpus.py); fall back to the sample.
+_CORPUS = _DATA_DIR / "factcheck_kz.json"
+_SAMPLE = _DATA_DIR / "factcheck_kz_sample.json"
 
 # τ — similarity threshold above which we treat the corpus hit as a match (§5).
 TAU = 0.18
@@ -29,7 +32,8 @@ _VERDICT_MAP = {
 
 @lru_cache
 def _corpus() -> list[dict]:
-    return json.loads(_DATA.read_text(encoding="utf-8"))
+    path = _CORPUS if _CORPUS.exists() else _SAMPLE
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def _tokens(text: str) -> set[str]:
