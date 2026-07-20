@@ -27,7 +27,7 @@ from .config import get_settings
 from .models import VERDICT_EMOJI
 from .orchestrator import analyze
 from .presenter import chat_card, highlight_source
-from .services import cache
+from .services import cache, metrics
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger("aqiqat")
@@ -79,6 +79,12 @@ def health() -> dict:
         "cards_stored": store.count(),
         **cache.stats(),
     }
+
+
+@app.get("/metrics")
+def metrics_endpoint() -> dict:
+    """Usage analytics — measurable-effect base for the pitch (§5)."""
+    return metrics.snapshot()
 
 
 @app.post("/analyze")
