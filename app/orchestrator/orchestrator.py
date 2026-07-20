@@ -26,7 +26,7 @@ from ..models import (
     MessageClass,
     Verdict,
 )
-from ..services import cache
+from ..services import cache, metrics
 from ..services.lang import detect_lang
 from ..services.llm import get_llm
 from ..tools import google_factcheck, local_corpus, rhetoric
@@ -281,7 +281,7 @@ def analyze(text: str) -> Card:
         if checkable:
             tools_called += ["search_local_corpus", "google_factcheck"]
 
-    return Card(
+    card = Card(
         lang=lang,
         source_text=text,
         message_class=cls,
@@ -291,3 +291,5 @@ def analyze(text: str) -> Card:
         used_llm=used_llm,
         tools_called=sorted(set(tools_called)),
     )
+    metrics.record(card)
+    return card
