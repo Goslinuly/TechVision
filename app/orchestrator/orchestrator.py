@@ -62,15 +62,21 @@ def _verdict_from_sources(local: dict, google: dict) -> Verdict:
 # Step 2 — classify + decompose
 # --------------------------------------------------------------------------- #
 _OPINION_MARKERS = re.compile(
-    r"(скрыва|врут|врёт|обман|домысел|думаю|наверное|по-моему|считаю|"
+    r"(скрыва|врут|врёт|обман|домысел|думаю|наверное|по-моему|кажется|считаю|"
     r"жасыр|алдау|меніңше|ойлаймын)",
     re.IGNORECASE,
 )
-_SPLIT = re.compile(r"[.!?;\n]|,\s+(?:что|а также|и )|(?<=\s)и\s+(?=\w+\s)")
+# Split on sentence + clause boundaries (including bare commas) so a trailing
+# opinion clause separates from the checkable claim it is attached to.
+_SPLIT = re.compile(r"[.!?;\n,]|(?<=\s)и\s+(?=\w+\s)")
+_LEADING_CONNECTIVE = re.compile(r"^(что|а также)\s+", re.IGNORECASE)
 
 
 def _mock_extract(text: str) -> tuple[MessageClass, list[tuple[str, ClaimKind]]]:
-    raw = [frag.strip(" ,.—–-") for frag in _SPLIT.split(text)]
+    raw = [
+        _LEADING_CONNECTIVE.sub("", frag.strip(" ,.—–-"))
+        for frag in _SPLIT.split(text)
+    ]
     frags = [f for f in raw if len(re.findall(r"\w+", f)) >= 2]
     if not frags:
         frags = [text.strip()]
