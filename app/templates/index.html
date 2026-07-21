@@ -3,68 +3,247 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Aqıqat — проверка информации</title>
+  <title>Aqıqat — объяснимый разбор против информационного шума</title>
+  <meta name="description" content="Aqıqat разбирает пересланную «новость» на казахском и русском: какие утверждения проверяемы, что нашлось в базах фактчекеров и какие манипуляции использованы.">
   <style>
-    :root { --bg:#f6f7f9; --card:#fff; --fg:#1a1c1e; --muted:#62676c;
-            --border:#e4e7eb; --accent:#2f6b4f; }
-    @media (prefers-color-scheme: dark) {
-      :root { --bg:#16181c; --card:#1f2226; --fg:#e8eaed; --muted:#9aa0a6;
-              --border:#2c3036; --accent:#6fcf97; } }
-    * { box-sizing:border-box; }
-    body { margin:0; background:var(--bg); color:var(--fg);
-      font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
-    .wrap { max-width:640px; margin:0 auto; padding:32px 16px 64px; }
-    h1 { margin:0 0 4px; font-size:26px; }
-    .tag { color:var(--muted); margin-bottom:24px; }
-    .card { background:var(--card); border:1px solid var(--border);
-      border-radius:14px; padding:20px; }
-    textarea { width:100%; min-height:120px; resize:vertical; padding:12px;
-      border:1px solid var(--border); border-radius:10px; background:var(--bg);
-      color:var(--fg); font:inherit; }
-    button { margin-top:12px; background:var(--accent); color:#fff; border:0;
-      border-radius:10px; padding:11px 18px; font:inherit; font-weight:600;
-      cursor:pointer; }
-    button:disabled { opacity:.6; cursor:default; }
-    #out { margin-top:16px; white-space:pre-wrap; font-size:15px; }
-    #out a { color:var(--accent); }
-    .note { color:var(--muted); font-size:13px; margin-top:20px; }
+    :root{
+      --bg:#f5f6f8; --bg2:#eef0f3; --card:#fff; --fg:#15171a; --muted:#5c626a;
+      --border:#e3e6ea; --accent:#2f6b4f; --accent2:#3a8060; --mark:#fff3bf;
+      --mark-fg:#6b5900; --chip:#eef2f0;
+    }
+    @media (prefers-color-scheme:dark){
+      :root{--bg:#111316; --bg2:#15181c; --card:#1c1f24; --fg:#e9ebee; --muted:#9aa0a8;
+        --border:#2a2e34; --accent:#6fcf97; --accent2:#5bbd86; --mark:#4a4326;
+        --mark-fg:#ffe98a; --chip:#232830;}
+    }
+    :root[data-theme="dark"]{--bg:#111316;--bg2:#15181c;--card:#1c1f24;--fg:#e9ebee;--muted:#9aa0a8;--border:#2a2e34;--accent:#6fcf97;--accent2:#5bbd86;--mark:#4a4326;--mark-fg:#ffe98a;--chip:#232830;}
+    :root[data-theme="light"]{--bg:#f5f6f8;--bg2:#eef0f3;--card:#fff;--fg:#15171a;--muted:#5c626a;--border:#e3e6ea;--accent:#2f6b4f;--accent2:#3a8060;--mark:#fff3bf;--mark-fg:#6b5900;--chip:#eef2f0;}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--fg);
+      font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,sans-serif}
+    a{color:var(--accent);text-decoration:none}
+    .wrap{max-width:960px;margin:0 auto;padding:0 20px}
+    /* nav */
+    header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);
+      backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+    .nav{display:flex;align-items:center;gap:18px;height:60px}
+    .logo{font-weight:700;font-size:19px;letter-spacing:.3px}
+    .nav .spacer{flex:1}
+    .nav a.link{color:var(--muted);font-size:14px}
+    .nav a.link:hover{color:var(--fg)}
+    .btn{display:inline-block;background:var(--accent);color:#06120c;font-weight:600;
+      border:0;border-radius:10px;padding:10px 16px;cursor:pointer;font-size:15px}
+    .btn.ghost{background:transparent;color:var(--fg);border:1px solid var(--border)}
+    .btn:hover{background:var(--accent2)}
+    @media(max-width:640px){.nav a.link{display:none}}
+    /* hero */
+    .hero{padding:64px 0 40px;text-align:center}
+    .kicker{display:inline-block;font-size:13px;color:var(--accent);border:1px solid var(--border);
+      background:var(--card);border-radius:999px;padding:4px 12px;margin-bottom:18px}
+    h1{font-size:clamp(32px,6vw,52px);line-height:1.08;margin:.1em 0}
+    .sub{font-size:clamp(16px,2.4vw,20px);color:var(--muted);max-width:640px;margin:14px auto 0}
+    .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+    .stats{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin-top:34px;color:var(--muted);font-size:14px}
+    .stats b{display:block;color:var(--fg);font-size:22px}
+    /* sections */
+    section{padding:52px 0;border-top:1px solid var(--border)}
+    h2{font-size:clamp(22px,3.5vw,30px);margin:0 0 8px}
+    .lead{color:var(--muted);max-width:680px;margin:0 0 28px}
+    .grid{display:grid;gap:16px}
+    .grid.c3{grid-template-columns:repeat(3,1fr)}
+    .grid.c2{grid-template-columns:repeat(2,1fr)}
+    @media(max-width:720px){.grid.c3,.grid.c2{grid-template-columns:1fr}}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px}
+    .step .n{width:30px;height:30px;border-radius:8px;background:var(--chip);color:var(--accent);
+      display:grid;place-items:center;font-weight:700;margin-bottom:10px}
+    .card h3{margin:.2em 0 .4em;font-size:17px}
+    .card p{margin:0;color:var(--muted);font-size:14.5px}
+    /* demo */
+    .demo textarea{width:100%;min-height:110px;resize:vertical;padding:13px;border:1px solid var(--border);
+      border-radius:12px;background:var(--bg2);color:var(--fg);font:inherit}
+    .chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+    .chip{font-size:13px;color:var(--muted);background:var(--chip);border:1px solid var(--border);
+      border-radius:999px;padding:6px 12px;cursor:pointer}
+    .chip:hover{color:var(--fg)}
+    .demo .row{display:flex;gap:10px;align-items:center;margin-top:6px}
+    #out{margin-top:16px;white-space:pre-wrap;font-size:14.5px;background:var(--bg2);
+      border:1px solid var(--border);border-radius:12px;padding:16px;display:none}
+    #out.show{display:block}
+    #out a{display:inline-block;margin-top:10px;font-weight:600}
+    .spin{color:var(--muted)}
+    /* card anatomy */
+    .anat li{margin:8px 0;color:var(--muted)}
+    .anat b{color:var(--fg)}
+    mark{background:var(--mark);color:var(--mark-fg);padding:0 3px;border-radius:4px}
+    footer{border-top:1px solid var(--border);padding:34px 0;color:var(--muted);font-size:13.5px}
+    .disc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-top:10px}
+    .theme-toggle{background:transparent;border:1px solid var(--border);color:var(--muted);
+      border-radius:8px;width:34px;height:34px;cursor:pointer;font-size:15px}
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>Aqıqat</h1>
-    <div class="tag">Объяснимый разбор сообщений против информационного шума · kk / ru</div>
-    <div class="card">
-      <textarea id="text" placeholder="Вставьте пересланное сообщение…"></textarea>
-      <button id="go" onclick="run()">Разобрать</button>
-      <div id="out"></div>
-    </div>
-    <div class="note">
-      Мы не выносим вердикт «97% фейк». Показываем, что проверяемо, что нашлось
-      в базах фактчекеров и какие манипулятивные приёмы использованы.
-    </div>
+<header>
+  <div class="wrap nav">
+    <span class="logo">Aqıqat</span>
+    <a class="link" href="#how">Как работает</a>
+    <a class="link" href="#demo">Демо</a>
+    <a class="link" href="#tech">Технологии</a>
+    <span class="spacer"></span>
+    <button class="theme-toggle" id="themeBtn" title="Тема" onclick="toggleTheme()">◐</button>
+    <a class="btn" href="https://t.me/Aqiqat_check_bot" target="_blank" rel="noopener">Открыть бот</a>
   </div>
-  <script>
-    async function run() {
-      const btn = document.getElementById('go');
-      const out = document.getElementById('out');
-      const text = document.getElementById('text').value.trim();
-      if (!text) { out.textContent = 'Введите текст.'; return; }
-      btn.disabled = true; out.textContent = 'Разбираю…';
-      try {
-        const r = await fetch('/analyze', {
-          method: 'POST', headers: {'content-type': 'application/json'},
-          body: JSON.stringify({text})
-        });
-        const data = await r.json();
-        out.textContent = data.chat_text + '\n\n';
-        const a = document.createElement('a');
-        a.href = data.url; a.textContent = 'Открыть полный разбор →';
-        a.target = '_blank'; out.appendChild(a);
-      } catch (e) {
-        out.textContent = 'Ошибка: ' + e;
-      } finally { btn.disabled = false; }
-    }
-  </script>
+</header>
+
+<main>
+  <section class="hero" style="border-top:none">
+    <div class="wrap">
+      <span class="kicker">каз. «истина» · kk / ru</span>
+      <h1>Разбираем «новости»,<br>а не пугаем вердиктом</h1>
+      <p class="sub">Перешлите Aqıqat сообщение из чата — покажем, какие утверждения
+        проверяемы, что нашлось в базах фактчекеров и какие манипулятивные приёмы
+        использованы. Без «97% фейк».</p>
+      <div class="cta">
+        <a class="btn" href="https://t.me/Aqiqat_check_bot" target="_blank" rel="noopener">Открыть в Telegram</a>
+        <a class="btn ghost" href="#demo">Попробовать здесь →</a>
+      </div>
+      <div class="stats" id="stats">
+        <div><b id="stChecks">—</b>проверок</div>
+        <div><b id="stManip">—</b>с манипуляциями</div>
+        <div><b>kk / ru</b>языки</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pain">
+    <div class="wrap">
+      <h2>Проблема</h2>
+      <p class="lead">Школьнику или студенту в семейный чат прислали «новость» на
+        казахском или русском. Он уже почти поверил — или ему возразили — и не знает,
+        как проверить и что ответить. Готовых инструментов проверки на kk/ru с местным
+        контекстом нет: рынок англоязычный.</p>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <h2>Как это работает</h2>
+      <p class="lead">Оркестратор на LLM запускает кастомный агентный цикл — это не
+        обёртка над одним запросом к модели.</p>
+      <div class="grid c3">
+        <div class="card step"><div class="n">1</div><h3>Классификация и разбор</h3>
+          <p>Сообщение делится на атомарные утверждения; факты отделяются от мнений и домыслов.</p></div>
+        <div class="card step"><div class="n">2</div><h3>Маршрутизация по инструментам</h3>
+          <p>Модель сама решает, что звать: локальная база Factcheck.kz, Google Fact Check,
+            детектор манипуляций, KazLLM для казахского контекста.</p></div>
+        <div class="card step"><div class="n">3</div><h3>Объяснимая карточка</h3>
+          <p>Не вердикт, а структура: проверяемые утверждения, подсвеченные манипуляции
+            и вариант вежливого ответа.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="demo">
+    <div class="wrap demo">
+      <h2>Живое демо</h2>
+      <p class="lead">Вставьте сообщение или выберите пример — разбор придёт тот же,
+        что и в боте.</p>
+      <div class="card">
+        <textarea id="text" placeholder="Вставьте пересланное сообщение…"></textarea>
+        <div class="chips" id="chips"></div>
+        <div class="row"><button class="btn" id="go" onclick="run()">Разобрать</button></div>
+        <div id="out"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="card">
+    <div class="wrap">
+      <h2>Что в разборе</h2>
+      <div class="grid c3">
+        <div class="card"><h3>✅ Проверяемые утверждения</h3>
+          <p>Каждое атомарное утверждение с вердиктом (опровергнуто / подтверждено /
+            данных нет) и ссылкой на источник.</p></div>
+        <div class="card"><h3>🎭 Манипулятивные приёмы</h3>
+          <p>Подсветка конкретных фраз: <mark>апелляция к страху</mark>,
+            цифра без источника, ложная дихотомия и другие.</p></div>
+        <div class="card"><h3>💬 Как ответить</h3>
+          <p>Готовая формулировка вежливого ответа на языке сообщения — то, чем можно
+            поделиться обратно в чат.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tech">
+    <div class="wrap">
+      <h2>Технологии</h2>
+      <ul class="anat">
+        <li><b>Оркестратор:</b> LLM с агентным tool-use (Fable 5 / Groq Llama 3.3, переключаемо)</li>
+        <li><b>Поиск:</b> multilingual-e5 + pgvector по базе Factcheck.kz (fallback — лексический)</li>
+        <li><b>Локальная модель:</b> KazLLM-8B (llama.cpp) — специалист по казахскому контексту</li>
+        <li><b>Внешний факт-чек:</b> Google Fact Check Tools API</li>
+        <li><b>Бот и бэкенд:</b> aiogram 3 + FastAPI</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="disc">
+      Aqıqat не выносит вердикт «97% фейк» — открытые детекторы дают лишь ~78% AUC.
+      Мы показываем, что проверяемо, что нашлось в источниках и какие приёмы
+      использованы. Итоговое решение — за вами.
+    </div>
+    <p style="margin-top:16px">© 2026 Aqıqat · Tech Vision 2026 · <a href="https://t.me/Aqiqat_check_bot" target="_blank" rel="noopener">@Aqiqat_check_bot</a></p>
+  </div>
+</footer>
+
+<script>
+  const EXAMPLES=[
+    "Врачи скрывают, что вакцина X вызвала 5000 смертей в Алматы. Срочно перешлите всем!",
+    "Мемлекет барлық зейнетақыны цифрлық теңгеге мәжбүрлеп ауыстырады, билік жасырып отыр.",
+    "Учёные доказали, что фторирование воды снижает сопротивляемость населения.",
+    "Средняя зарплата в Казахстане превысила 400 тысяч тенге."
+  ];
+  const chips=document.getElementById('chips');
+  EXAMPLES.forEach(t=>{const c=document.createElement('span');c.className='chip';
+    c.textContent=t.length>46?t.slice(0,45)+'…':t;
+    c.onclick=()=>{document.getElementById('text').value=t;};chips.appendChild(c);});
+
+  async function run(){
+    const btn=document.getElementById('go'),out=document.getElementById('out');
+    const text=document.getElementById('text').value.trim();
+    if(!text){out.className='show';out.textContent='Введите текст.';return;}
+    btn.disabled=true;out.className='show';out.innerHTML='<span class="spin">Разбираю…</span>';
+    try{
+      const r=await fetch('/analyze',{method:'POST',headers:{'content-type':'application/json'},
+        body:JSON.stringify({text})});
+      const d=await r.json();
+      out.textContent=d.chat_text+'\n';
+      const a=document.createElement('a');a.href=d.url;a.target='_blank';
+      a.textContent='Открыть полный разбор →';out.appendChild(a);
+      loadStats();
+    }catch(e){out.textContent='Ошибка: '+e;}finally{btn.disabled=false;}
+  }
+
+  async function loadStats(){
+    try{const d=await (await fetch('/metrics')).json();
+      document.getElementById('stChecks').textContent=d.checks_total??'—';
+      const mr=d.manipulation_rate!=null?Math.round(d.manipulation_rate*100)+'%':'—';
+      document.getElementById('stManip').textContent=mr;
+    }catch(e){}
+  }
+  loadStats();
+
+  function toggleTheme(){
+    const cur=document.documentElement.getAttribute('data-theme');
+    const next=cur==='dark'?'light':(cur==='light'?'dark':
+      (matchMedia('(prefers-color-scheme: dark)').matches?'light':'dark'));
+    document.documentElement.setAttribute('data-theme',next);
+    try{localStorage.setItem('theme',next);}catch(e){}
+  }
+  try{const t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
 </body>
 </html>
