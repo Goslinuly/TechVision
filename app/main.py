@@ -79,10 +79,16 @@ def index(request: Request):
 @app.get("/health")
 def health() -> dict:
     s = get_settings()
+    provider = s.active_provider
+    model = {
+        "groq": s.groq_model,
+        "anthropic": s.orchestrator_model,
+    }.get(provider)
     return {
         "status": "ok",
+        "llm_provider": provider,
         "llm_enabled": s.llm_enabled,
-        "orchestrator_model": s.orchestrator_model if s.llm_enabled else None,
+        "orchestrator_model": model,
         "bot_enabled": s.bot_enabled,
         "ocr_enabled": s.enable_ocr,
         "google_factcheck": bool(s.google_factcheck_api_key),
