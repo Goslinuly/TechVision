@@ -77,7 +77,19 @@ python -m scripts.build_corpus --limit 30     # → data/factcheck_kz.json
 
 # 5) Прогнать eval-набор (§4, adversarial):
 python -m scripts.eval
+
+# 6) (опц.) Семантический поиск на e5 + pgvector:
+pip install sentence-transformers "psycopg[binary]" pgvector
+#   в .env: EMBEDDINGS_ENABLED=true, DATABASE_URL=postgresql://...
+python -m scripts.index_corpus            # эмбеддит корпус и грузит в pgvector
+
+# 7) (опц.) KazLLM-8B специалист (llama.cpp):
+llama-server -m kazllm-8b.gguf --port 8080
+#   в .env: KAZLLM_BASE_URL=http://localhost:8080/v1
 ```
+
+Проверить, какие бэкенды активны: `GET /health` → `search_backend`
+(`pgvector` | `e5-inmemory` | `lexical`), `kazllm`, `llm_provider`.
 
 ### Режимы работы
 
@@ -100,9 +112,9 @@ python -m scripts.eval
 | Внешний API     | **Google Fact Check Tools API**    | ✅ РЕАЛЬНО подключён        |
 | Rhetoric        | правила + span'ы (kk/ru)           | ✅ реализовано              |
 | Парсер Factcheck.kz | httpx + og-meta + verdict-метки | ✅ `scripts/build_corpus.py` |
-| Локальная модель| **KazLLM-8B-GGUF** (llama.cpp)     | 🟡 stub (`orchestrator/tools.py`) |
-| Эмбеддинги      | **multilingual-e5** (ru+kk)        | 🟡 замена: лексический скоринг |
-| Vector DB       | **pgvector** (Supabase)            | 🟡 замена: локальный JSON-корпус |
+| Локальная модель| **KazLLM-8B-GGUF** (llama.cpp)     | ✅ HTTP-интеграция (`KAZLLM_BASE_URL`), fallback-stub |
+| Эмбеддинги      | **multilingual-e5** (ru+kk)        | ✅ опц. (`EMBEDDINGS_ENABLED`), fallback: лексика |
+| Vector DB       | **pgvector** (Supabase)            | ✅ опц. (`DATABASE_URL`), fallback: локальный JSON |
 | OCR             | **Tesseract** (kaz+rus)            | 🟡 опционально (`ENABLE_OCR`) |
 | Веб-карточка    | FastAPI + Jinja2                   | ✅ реализовано              |
 

@@ -274,7 +274,10 @@ def analyze(text: str) -> Card:
 
     llm_out = None
     if get_llm().available:
-        llm_out = _analyze_llm(text, lang, cls, claims)
+        try:
+            llm_out = _analyze_llm(text, lang, cls, claims)
+        except Exception:  # noqa: BLE001 — LLM/network/rate-limit → fall back
+            llm_out = None
 
     if llm_out is not None:
         results, reply, called = llm_out

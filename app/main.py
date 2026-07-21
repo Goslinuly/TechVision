@@ -29,7 +29,7 @@ from .config import get_settings
 from .models import VERDICT_EMOJI
 from .orchestrator import analyze
 from .presenter import chat_card, highlight_source
-from .services import cache, metrics
+from .services import cache, embeddings, kazllm, metrics, vectorstore
 from .services.ocr import extract_text
 
 logging.basicConfig(level=logging.INFO)
@@ -91,6 +91,14 @@ def health() -> dict:
         "orchestrator_model": model,
         "bot_enabled": s.bot_enabled,
         "ocr_enabled": s.enable_ocr,
+        "search_backend": (
+            "pgvector"
+            if embeddings.available() and vectorstore.available()
+            else "e5-inmemory"
+            if embeddings.available()
+            else "lexical"
+        ),
+        "kazllm": kazllm.available(),
         "google_factcheck": bool(s.google_factcheck_api_key),
         "cards_stored": store.count(),
         **cache.stats(),

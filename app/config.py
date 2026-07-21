@@ -33,6 +33,20 @@ class Settings(BaseSettings):
     public_base_url: str = "http://localhost:8000"
     enable_ocr: bool = False
 
+    # --- Semantic search: multilingual-e5 embeddings (optional, heavy dep) ---
+    embeddings_enabled: bool = False
+    embeddings_model: str = "intfloat/multilingual-e5-base"
+    # Cosine threshold τ for e5 (normalized). Calibrate on real data.
+    tau_cosine: float = 0.84
+
+    # --- Vector DB: pgvector on Supabase/Postgres (optional) ---
+    database_url: str = ""  # e.g. postgresql://user:pass@host:5432/db
+
+    # --- KazLLM-8B specialist via llama.cpp OpenAI-compatible server (optional) ---
+    kazllm_base_url: str = ""  # e.g. http://localhost:8080/v1
+    kazllm_model: str = "kazllm-8b"
+    kazllm_api_key: str = "sk-no-key"  # llama.cpp ignores it; some servers require a value
+
     @property
     def active_provider(self) -> str:
         """Resolve which LLM backend is actually usable."""
