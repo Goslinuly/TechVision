@@ -5,15 +5,19 @@ from __future__ import annotations
 
 import json
 
+from ..services import kazllm
 from ..tools import google_factcheck, local_corpus, rhetoric
 
+
 # --- KazLLM specialist (§2.2) -----------------------------------------------
-# In prod: KazLLM-8B-GGUF via llama.cpp, consulted for Kazakh idioms / local
-# entities. Stubbed here so the pipeline runs without a local model server.
+# KazLLM-8B-GGUF via llama.cpp (services/kazllm), consulted for Kazakh idioms /
+# local entities. Degrades to a stub when KAZLLM_BASE_URL is not configured.
 def kazllm_specialist(text: str) -> dict:
+    if kazllm.available():
+        return kazllm.explain(text)
     return {
         "available": False,
-        "note": "KazLLM-8B specialist stubbed in MVP skeleton; wire llama.cpp here.",
+        "note": "KazLLM-8B not configured (set KAZLLM_BASE_URL); using stub.",
         "text": text,
     }
 

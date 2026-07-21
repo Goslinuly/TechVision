@@ -15,10 +15,13 @@ aiogram==3.15.0
 anthropic==0.42.0
 
 # --- Optional heavy deps (declared for the demo, NOT imported unless enabled) ---
-# multilingual-e5 embeddings + pgvector search:
+# multilingual-e5 semantic search (EMBEDDINGS_ENABLED=true):
 # sentence-transformers==3.3.1
+# pgvector on Supabase/Postgres (DATABASE_URL set):
 # psycopg[binary]==3.2.3
 # pgvector==0.3.6
-# OCR from photos:
+# OCR from photos (ENABLE_OCR=true):
 # pytesseract==0.3.13   (requires system `tesseract-ocr` with kaz+rus langpacks)
 # Pillow==11.1.0
+# KazLLM-8B (KAZLLM_BASE_URL set) runs as an external llama.cpp server — no pip dep;
+# the app talks to it over HTTP via httpx (already a core dependency).
