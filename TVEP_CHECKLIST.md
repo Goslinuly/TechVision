@@ -5,6 +5,9 @@
 кода паспорту). Каждый раздел ТЗ отображён на конкретные файлы — жюри может
 открыть и проверить.
 
+**Сам паспорт — `TVEP.md`** (3 страницы: боль/USP · архитектура · математика и
+затраты). Этот файл — сверка паспорта с кодом, а не замена паспорта.
+
 Все пути указаны от корня репозитория.
 
 ---
@@ -16,7 +19,7 @@
 
 | Что | Файлы |
 |---|---|
-| Формулировка боли и USP (текст) | `TZ_TechVision_Zone13.md` §0, `README.md` |
+| Формулировка боли и USP (текст) | `TVEP.md` стр. 1, `TZ_TechVision_Zone13.md` §0, `README.md` |
 | Приём пересланного текста, тон «разбор, не вердикт» | `app/bot.py` (`_WELCOME`, `_HELP`, `on_message`) |
 | Принцип «не 97% фейк, а разбор» в логике | `app/orchestrator/orchestrator.py` (`analyze`), `MODELING.md` §1 |
 
@@ -40,8 +43,16 @@
 
 ## Раздел 2 · Архитектура (Bot → FastAPI → Оркестратор → инструменты)
 
+Схема паспорта — `TVEP.md` стр. 2; она дословно совпадает со схемой в `README.md`
+и проверяется живьём через `GET /health` (`llm_provider`, `orchestrator_model`,
+`search_backend`, `kazllm`, `image_signal`). На момент сдачи прод-оркестратор —
+Groq · Llama 3.3 70B; конфигурация на Claude Fable 5 включается через
+`LLM_PROVIDER=anthropic` без изменения цикла.
+
 | Компонент архитектуры | Файлы |
 |---|---|
+| Выбор LLM-провайдера (прод Groq / альт. Anthropic / детерминированный путь) | `app/config.py` (`active_provider`), `app/services/llm.py` (`_GroqBackend`, `_AnthropicBackend`, `LLMClient`), `tests/test_provider.py` |
+| Сверка «схема ↔ реальность» одним запросом | `app/main.py` (`/health`) |
 | Telegram-бот (aiogram 3), forward-приём | `app/bot.py` |
 | FastAPI backend: webhook, `/analyze`, web-card, `/health` | `app/main.py` |
 | Оркестратор (агентный цикл) | `app/orchestrator/orchestrator.py` |
@@ -134,9 +145,10 @@ KazLLM-8B вызывается оркестратором как специал�
 
 | Что | Файлы |
 |---|---|
-| Разбор затрат (API + хостинг + self-hosted KazLLM) | `COSTS.md` |
-| Митигация стоимости: Fable 5 один раз, подшаги на Haiku | `app/services/llm.py`, `orchestrator.py` (`_extract` vs `_analyze_llm`) |
+| Разбор затрат в двух конфигурациях (текущая Groq ≈$0.004 / фронтир ≈$0.10 за разбор) + хостинг + self-hosted KazLLM | `COSTS.md`, `TVEP.md` стр. 3 §6, `README.md` («Структура затрат») |
+| Митигация стоимости: оркестратор один раз на сообщение, декомпозиция дешёвым подшагом | `app/services/llm.py` (`run_tool_loop` vs `complete_json`), `orchestrator.py` (`_extract` vs `_analyze_llm`) |
 | Кэш вердиктов по хешу | `app/services/cache.py` |
+| Работа при цене API $0 (лимит/сбой LLM) | `orchestrator.py` (ветки `except`, `_resolve_claim`) |
 
 ---
 
@@ -145,6 +157,7 @@ KazLLM-8B вызывается оркестратором как специал�
 | Пункт | Файлы |
 |---|---|
 | Зависимости явно указаны | `README.md`, `requirements.txt`, `requirements-dev.txt` |
+| Лицензия проекта и лицензии сторонних компонентов (KazLLM — CC-BY-NC) | `LICENSE`, `SUSTAINABILITY.md §7`, `COSTS.md` |
 | Дипфейк-демо только на своём материале, как сигнал | `app/services/image_forensics.py`, `MODELING.md` §6 |
 | Модель угроз, секреты, ротация ключей, промпт-инъекции | `SECURITY.md` |
 | Валидация и лимиты ввода + тесты | `app/main.py` (`MAX_INPUT_CHARS`), `app/bot.py` (`_MAX_INPUT`), `tests/test_api_limits.py` |
