@@ -53,5 +53,155 @@
     "url": "https://factcheck.kz/glavnoe/average-salary-2025",
     "summary": "По данным Бюро нацстатистики, средняя номинальная зарплата в 2025 году превысила указанный уровень.",
     "date": "2025-04-01"
+  },
+  {
+    "id": "pravda-li-chto-kazaxstan-zanyal-trete-mesto-v-mire-po-chislu",
+    "lang": "ru",
+    "claim": "Правда ли, что Казахстан занял третье место в мире по числу абортов?",
+    "verdict": "refuted",
+    "rating": "Манипуляция",
+    "title": "Правда ли, что Казахстан занял третье место в мире по числу абортов?",
+    "url": "https://factcheck.kz/articles/pravda-li-chto-kazaxstan-zanyal-trete-mesto-v-mire-po-chislu-abortov",
+    "summary": "На днях Instagram-аккаунт dailyworldmaps опубликовал любопытную таблицу с десяткой стран с самыми высокими уровнями абортов. Согласно данным, предоставленным в таблице, Казахстан находится на третьем месте в мире по частоте абортов на 1000 женщин."
+  },
+  {
+    "id": "kazahstan-opustilsya-na-8-pozitsiy-v-reytinge-svobody-pressy",
+    "lang": "ru",
+    "claim": "Казахстан опустился на 8 позиций в рейтинге свободы прессы от «Репортёров без границ»",
+    "verdict": "refuted",
+    "rating": "Фейк",
+    "title": "Казахстан опустился на 8 позиций в рейтинге свободы прессы от «Репортёров без границ»",
+    "url": "https://factcheck.kz/articles/kazahstan-opustilsya-na-8-pozitsiy-v-reytinge-svobody-pressy-ot-reportyorov-bez-granits",
+    "summary": "В ежегодном рейтинге свободы прессы от «Репортёров без границ» Казахстан занял 142 место из 180, тем самым опустившись на 8 строчек по сравнению с 2023 годом."
+  },
+  {
+    "id": "otkazalas-li-voz-ot-dogovora-po-predotvrascheniyu-pandemiy-p",
+    "lang": "ru",
+    "claim": "Отказалась ли ВОЗ от договора по предотвращению пандемий — проверка Reuters",
+    "verdict": "refuted",
+    "rating": "Ложь",
+    "title": "Отказалась ли ВОЗ от договора по предотвращению пандемий — проверка Reuters",
+    "url": "https://factcheck.kz/articles/otkazalas-li-voz-ot-dogovora-po-predotvrascheniyu-pandemiy-proverka-reuters",
+    "summary": "В Сети распространяется информация о том, что Всемирная организация здравоохранения отказалась от разработки Договора по предотвращению пандемий. Это утверждение проверили фактчекеры Reuters."
+  },
+  {
+    "id": "lozh-prozhitochnyy-minimum-sootvetstvuet-realnym-rashodam",
+    "lang": "ru",
+    "claim": "Прожиточный минимум соответствует реальным расходам",
+    "verdict": "refuted",
+    "rating": "Ложь",
+    "title": "Прожиточный минимум соответствует реальным расходам",
+    "url": "https://factcheck.kz/articles/lozh-prozhitochnyy-minimum-sootvetstvuet-realnym-rashodam",
+    "summary": "35"
+  },
+  {
+    "id": "lozh-dumk-imeet-pravo-na-zapret-surrogatnogo-materinstva",
+    "lang": "ru",
+    "claim": "ДУМК имеет право на запрет суррогатного материнства",
+    "verdict": "refuted",
+    "rating": "Ложь",
+    "title": "ДУМК имеет право на запрет суррогатного материнства",
+    "url": "https://factcheck.kz/articles/lozh-dumk-imeet-pravo-na-zapret-surrogatnogo-materinstva",
+    "summary": "Не только в Духовное управление мусульман Казахстана, но и другие конфессии против суррогатного материнства. Это вытекает из религиозной доктрины. Ключевое слово «религиозной». Тут нужно вспомнить, что мы живем в светском государстве и в стране действует светское право, а не шариат. Поэтому не нужно понимать позицию ре"
+  },
+  {
+    "id": "lozh-pacienty-centra-ftiziatrii-kyrgyzstana-pogibli-iz-za-ka",
+    "lang": "ru",
+    "claim": "Пациенты центра фтизиатрии Кыргызстана погибли из-за казахстанского лекарства",
+    "verdict": "refuted",
+    "rating": "Ложь",
+    "title": "Пациенты центра фтизиатрии Кыргызстана погибли из-за казахстанского лекарства",
+    "url": "https://factcheck.kz/articles/lozh-pacienty-centra-ftiziatrii-kyrgyzstana-pogibli-iz-za-kazahstanskogo-lekarstva",
+    "summary": "После смерти двух больных, мы попросили Научный центр противоинфекционных препаратов Казахстана предоставить нам протокол раскрытия ослепления. Потому что вся информация о больных, которые были, подключены к клиническим исследованиям, находятся в базе данных этого центра. И в полученном протоколе было указано, что поги"
+  },
+  {
+    "id": "polupravda-vrachi-imeyut-pravo-izymat-organy-dlya-trupnogo-d",
+    "lang": "ru",
+    "claim": "Врачи имеют право изымать органы для трупного донорства",
+    "verdict": "not_found",
+    "rating": "Полуправда",
+    "title": "Врачи имеют право изымать органы для трупного донорства",
+    "url": "https://factcheck.kz/articles/polupravda-vrachi-imeyut-pravo-izymat-organy-dlya-trupnogo-donorstva",
+    "summary": "Если человек не оформил в поликлинике отказ от донорства, то при констатации смерти мозга врачи имеют право изъять его органы для пересадки другим больным."
+  },
+  {
+    "id": "lozh-v-2016-godu-valovyy-pritok-pryamyh-inostrannyh-investic",
+    "lang": "ru",
+    "claim": "В 2016 году валовый приток прямых иностранных инвестиций в Казахстан увеличился на 40%",
+    "verdict": "refuted",
+    "rating": "Ложь",
+    "title": "В 2016 году валовый приток прямых иностранных инвестиций в Казахстан увеличился на 40%",
+    "url": "https://factcheck.kz/articles/lozh-v-2016-godu-valovyy-pritok-pryamyh-inostrannyh-investiciy-v-kazahstan-uvelichilsya-na-40",
+    "summary": "31 марта 2017 года пресс-служба Национального Банка РК сообщила, что в 2016 году приток иностранных инвестиций в 2016 году увеличился на 40%."
+  },
+  {
+    "id": "pravda-enpf-snizil-komissionnoe-voznagrazhdenie-na-30-ot-inv",
+    "lang": "ru",
+    "claim": "ЕНПФ снизил комиссионное вознаграждение на 30% от инвестдохода",
+    "verdict": "supported",
+    "rating": "Правда",
+    "title": "ЕНПФ снизил комиссионное вознаграждение на 30% от инвестдохода",
+    "url": "https://factcheck.kz/articles/pravda-enpf-snizil-komissionnoe-voznagrazhdenie-na-30-ot-investdohoda",
+    "summary": "В ноябре 2015 года на сайте Единого накопительного пенсионного фонда была опубликована новость о существенном снижении комиссионного вознаграждения."
+  },
+  {
+    "id": "polupravda-tokaev-46-doxodov-respublikanskogo-byudzheta-sost",
+    "lang": "ru",
+    "claim": "Токаев: 46% доходов республиканского бюджета составляют трансферты из Нацфонда",
+    "verdict": "not_found",
+    "rating": "Полуправда",
+    "title": "Токаев: 46% доходов республиканского бюджета составляют трансферты из Нацфонда",
+    "url": "https://factcheck.kz/articles/polupravda-tokaev-46-doxodov-respublikanskogo-byudzheta-sostavlyayut-transferty-iz-nacfonda",
+    "summary": "Трансферты из Национального фонда в 2016 году на самом деле составили 45% от общей суммы доходов в республиканский бюджет."
+  },
+  {
+    "id": "startoval-pervyj-faktcheking-resurs-v-centralnoj-azii",
+    "lang": "ru",
+    "claim": "Стартовал первый в Центральной Азии фактчекинг-ресурс",
+    "verdict": "refuted",
+    "rating": "Фейк",
+    "title": "Стартовал первый в Центральной Азии фактчекинг-ресурс",
+    "url": "https://factcheck.kz/articles/startoval-pervyj-faktcheking-resurs-v-centralnoj-azii",
+    "summary": "Мы проверяем важную информацию, публикуемую в СМИ, социальных сетях, мессенджерах, заявлениях публичных персон и организаций на предмет достоверности."
+  },
+  {
+    "id": "na-chto-ne-mozhet-povliyat-faktcheking-rep-o-fejkovyx-novost",
+    "lang": "ru",
+    "claim": "На что не может повлиять фактчекинг, рэп о фейковых новостях и новый проект Википедии",
+    "verdict": "refuted",
+    "rating": "Фейк",
+    "title": "На что не может повлиять фактчекинг, рэп о фейковых новостях и новый проект Википедии",
+    "url": "https://factcheck.kz/articles/na-chto-ne-mozhet-povliyat-faktcheking-rep-o-fejkovyx-novostyax-i-novyj-proekt-vikipedii",
+    "summary": "Дайджест factcheck.kz о постоянстве и непостоянстве этого мира с точки зрения фактчекинга."
+  },
+  {
+    "id": "pravda-isekeshev-o-taldykole-zapax-serovodoroda-ustranen",
+    "lang": "ru",
+    "claim": "Неприятный запах на Талдыколе наконец устранён",
+    "verdict": "supported",
+    "rating": "Правда",
+    "title": "Неприятный запах на Талдыколе наконец устранён",
+    "url": "https://factcheck.kz/articles/pravda-isekeshev-o-taldykole-zapax-serovodoroda-ustranen",
+    "summary": "Не так давно аким Астаны Асет Исекешев отчитался об устранении запаха сероводорода на озере Талдыколь, Factcheck.kz решил это проверить."
+  },
+  {
+    "id": "pravda-ukraina-vozbudila-ugolovnoe-delo-protiv-stalina-i-ber",
+    "lang": "ru",
+    "claim": "Украина возбудила уголовное дело против Сталина и Берии",
+    "verdict": "supported",
+    "rating": "Правда",
+    "title": "Украина возбудила уголовное дело против Сталина и Берии",
+    "url": "https://factcheck.kz/articles/pravda-ukraina-vozbudila-ugolovnoe-delo-protiv-stalina-i-berii",
+    "summary": "На сегодняшний день прокуратура АР Крым собрала достаточно доказательств для сообщения о подозрении и в настоящее время подготовлены проекты сообщений о подозрении в совершении уголовного преступления, предусмотренного ч. 1 ст. 442 УК Украины Сталину и Берия Лаврентию Павловичу. Это только начало, нами в рамках данного"
+  },
+  {
+    "id": "kontekst-kto-pridumal-smert-svetlany-aleksievich",
+    "lang": "ru",
+    "claim": "КОНТЕКСТ | Кто придумал &quot;смерть&quot; Светланы Алексиевич",
+    "verdict": "refuted",
+    "rating": "Фейк",
+    "title": "КОНТЕКСТ | Кто придумал &quot;смерть&quot; Светланы Алексиевич",
+    "url": "https://factcheck.kz/articles/kontekst-kto-pridumal-smert-svetlany-aleksievich",
+    "summary": "Мой план состоит в том, чтобы продолжать создавать мифы. И я продолжу, потому что журналисты очень-очень доверчивы."
   }
 ]
