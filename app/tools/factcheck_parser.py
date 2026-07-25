@@ -26,19 +26,25 @@ from ..services.lang import detect_lang
 BASE = "https://factcheck.kz"
 _UA = {"User-Agent": "AqiqatCorpusBuilder/0.1 (hackathon; +https://factcheck.kz)"}
 
-# Rating label (case-insensitive) -> our verdict value.
-_LABELS: list[tuple[str, str]] = [
-    ("фейк", "refuted"),
-    ("ложь", "refuted"),
-    ("жалған", "refuted"),
-    ("манипуляц", "refuted"),
-    ("искажение", "refuted"),
-    ("не соответствует", "refuted"),
-    ("полуправда", "not_found"),
-    ("вырвано из контекста", "not_found"),
-    ("правда", "supported"),
-    ("ақиқат", "supported"),
+# Rating cue (case-insensitive) -> (verdict, human-readable rating label).
+_LABELS: list[tuple[str, str, str]] = [
+    ("фейк", "refuted", "Фейк"),
+    ("ложь", "refuted", "Ложь"),
+    ("жалған", "refuted", "Жалған"),
+    ("манипуляц", "refuted", "Манипуляция"),
+    ("искажение", "refuted", "Искажение"),
+    ("не соответствует", "refuted", "Не соответствует"),
+    ("полуправда", "not_found", "Полуправда"),
+    ("вырвано из контекста", "not_found", "Вырвано из контекста"),
+    ("правда", "supported", "Правда"),
+    ("ақиқат", "supported", "Ақиқат"),
 ]
+
+# Rating-prefixed titles ("ЛОЖЬ | ...") — strip the prefix for a clean claim.
+_PREFIX = re.compile(
+    r"^\s*(ложь|правда|полуправда|фейк|манипуляция|жалған|ақиқат|искажение)\s*[|｜:]\s*",
+    re.IGNORECASE,
+)
 
 
 def _get(url: str) -> str:
@@ -73,11 +79,12 @@ def _meta(html: str, key: str) -> str:
     return m.group(1).strip() if m else ""
 
 
-def _extract_verdict(html: str) -> str | None:
+def _extract_verdict(html: str) -> tuple[str, str] | None:
+    """Return (verdict, human-readable rating label), or None."""
     low = html.lower()
-    for label, verdict in _LABELS:
-        if label in low:
-            return verdict
+    for cue, verdict, label in _LABELS:
+        if cue in low:
+            return verdict, label
     return None
 
 
@@ -90,17 +97,19 @@ def parse_article(url: str) -> dict | None:
     title = _meta(html, "og:title") or _meta(html, "title")
     if not title:
         return None
-    verdict = _extract_verdict(html)
-    if verdict is None:
+    found = _extract_verdict(html)
+    if found is None:
         return None  # monitoring piece, not a verdict-bearing fact-check
+    verdict, rating = found
+    claim = _PREFIX.sub("", title).strip()  # drop "ЛОЖЬ | " prefix if present
     summary = _meta(html, "og:description") or _meta(html, "description")
     return {
         "id": url.rstrip("/").rsplit("/", 1)[-1][:60],
-        "lang": detect_lang(title).value,
-        "claim": title,
+        "lang": detect_lang(claim).value,
+        "claim": claim,
         "verdict": verdict,
-        "rating": verdict,
-        "title": title,
+        "rating": rating,
+        "title": claim,
         "url": url,
         "summary": summary,
     }
