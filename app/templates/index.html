@@ -24,7 +24,6 @@
       font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,sans-serif}
     a{color:var(--accent);text-decoration:none}
     .wrap{max-width:960px;margin:0 auto;padding:0 20px}
-    /* nav */
     header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);
       backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
     .nav{display:flex;align-items:center;gap:18px;height:60px}
@@ -36,30 +35,30 @@
       border:0;border-radius:10px;padding:10px 16px;cursor:pointer;font-size:15px}
     .btn.ghost{background:transparent;color:var(--fg);border:1px solid var(--border)}
     .btn:hover{background:var(--accent2)}
-    @media(max-width:640px){.nav a.link{display:none}}
-    /* hero */
+    .langsw{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+    .langsw button{background:transparent;color:var(--muted);border:0;padding:6px 10px;
+      cursor:pointer;font:inherit;font-size:13px;font-weight:600}
+    .langsw button.on{background:var(--accent);color:#06120c}
+    @media(max-width:680px){.nav a.link{display:none}}
     .hero{padding:64px 0 40px;text-align:center}
     .kicker{display:inline-block;font-size:13px;color:var(--accent);border:1px solid var(--border);
       background:var(--card);border-radius:999px;padding:4px 12px;margin-bottom:18px}
     h1{font-size:clamp(32px,6vw,52px);line-height:1.08;margin:.1em 0}
-    .sub{font-size:clamp(16px,2.4vw,20px);color:var(--muted);max-width:640px;margin:14px auto 0}
+    .sub{font-size:clamp(16px,2.4vw,20px);color:var(--muted);max-width:660px;margin:14px auto 0}
     .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px}
     .stats{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin-top:34px;color:var(--muted);font-size:14px}
     .stats b{display:block;color:var(--fg);font-size:22px}
-    /* sections */
     section{padding:52px 0;border-top:1px solid var(--border)}
     h2{font-size:clamp(22px,3.5vw,30px);margin:0 0 8px}
-    .lead{color:var(--muted);max-width:680px;margin:0 0 28px}
+    .lead{color:var(--muted);max-width:700px;margin:0 0 28px}
     .grid{display:grid;gap:16px}
     .grid.c3{grid-template-columns:repeat(3,1fr)}
-    .grid.c2{grid-template-columns:repeat(2,1fr)}
-    @media(max-width:720px){.grid.c3,.grid.c2{grid-template-columns:1fr}}
+    @media(max-width:720px){.grid.c3{grid-template-columns:1fr}}
     .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px}
     .step .n{width:30px;height:30px;border-radius:8px;background:var(--chip);color:var(--accent);
       display:grid;place-items:center;font-weight:700;margin-bottom:10px}
     .card h3{margin:.2em 0 .4em;font-size:17px}
     .card p{margin:0;color:var(--muted);font-size:14.5px}
-    /* demo */
     .demo textarea{width:100%;min-height:110px;resize:vertical;padding:13px;border:1px solid var(--border);
       border-radius:12px;background:var(--bg2);color:var(--fg);font:inherit}
     .chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
@@ -71,10 +70,7 @@
       border:1px solid var(--border);border-radius:12px;padding:16px;display:none}
     #out.show{display:block}
     #out a{display:inline-block;margin-top:10px;font-weight:600}
-    .spin{color:var(--muted)}
-    /* card anatomy */
     .anat li{margin:8px 0;color:var(--muted)}
-    .anat b{color:var(--fg)}
     mark{background:var(--mark);color:var(--mark-fg);padding:0 3px;border-radius:4px}
     footer{border-top:1px solid var(--border);padding:34px 0;color:var(--muted);font-size:13.5px}
     .disc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-top:10px}
@@ -86,12 +82,13 @@
 <header>
   <div class="wrap nav">
     <span class="logo">Aqıqat</span>
-    <a class="link" href="#how">Как работает</a>
-    <a class="link" href="#demo">Демо</a>
-    <a class="link" href="#tech">Технологии</a>
+    <a class="link" href="#how" data-i18n="nav_how">Как работает</a>
+    <a class="link" href="#demo" data-i18n="nav_demo">Демо</a>
+    <a class="link" href="#tech" data-i18n="nav_tech">Технологии</a>
     <span class="spacer"></span>
-    <button class="theme-toggle" id="themeBtn" title="Тема" onclick="toggleTheme()">◐</button>
-    <a class="btn" href="https://t.me/Aqiqat_check_bot" target="_blank" rel="noopener">Открыть бот</a>
+    <span class="langsw"><button id="lang-ru" onclick="setLang('ru')">RU</button><button id="lang-kk" onclick="setLang('kk')">KK</button></span>
+    <button class="theme-toggle" title="Тема" onclick="toggleTheme()">◐</button>
+    <a class="btn" href="https://t.me/Aqiqat_check_bot" target="_blank" rel="noopener" data-i18n="nav_bot">Открыть бот</a>
   </div>
 </header>
 
@@ -99,59 +96,50 @@
   <section class="hero" style="border-top:none">
     <div class="wrap">
       <span class="kicker">каз. «истина» · kk / ru</span>
-      <h1>Разбираем «новости»,<br>а не пугаем вердиктом</h1>
-      <p class="sub">Перешлите Aqıqat сообщение из чата — покажем, какие утверждения
-        проверяемы, что нашлось в базах фактчекеров и какие манипулятивные приёмы
-        использованы. Без «97% фейк».</p>
+      <h1 data-i18n="hero_h1">Разбираем «новости», а не пугаем вердиктом</h1>
+      <p class="sub" data-i18n="hero_sub">Перешлите Aqıqat сообщение из чата — покажем, какие утверждения проверяемы, что нашлось в базах фактчекеров и какие манипулятивные приёмы использованы. Без «97% фейк».</p>
       <div class="cta">
-        <a class="btn" href="https://t.me/Aqiqat_check_bot" target="_blank" rel="noopener">Открыть в Telegram</a>
-        <a class="btn ghost" href="#demo">Попробовать здесь →</a>
+        <a class="btn" href="https://t.me/Aqiqat_check_bot" target="_blank" rel="noopener" data-i18n="btn_tg">Открыть в Telegram</a>
+        <a class="btn ghost" href="#demo" data-i18n="btn_try">Попробовать здесь →</a>
       </div>
-      <div class="stats" id="stats">
-        <div><b id="stChecks">—</b>проверок</div>
-        <div><b id="stManip">—</b>с манипуляциями</div>
-        <div><b>kk / ru</b>языки</div>
+      <div class="stats">
+        <div><b id="stChecks">—</b><span data-i18n="stat_checks">проверок</span></div>
+        <div><b id="stManip">—</b><span data-i18n="stat_manip">с манипуляциями</span></div>
+        <div><b>kk / ru</b><span data-i18n="stat_lang">языки</span></div>
       </div>
     </div>
   </section>
 
   <section id="pain">
     <div class="wrap">
-      <h2>Проблема</h2>
-      <p class="lead">Школьнику или студенту в семейный чат прислали «новость» на
-        казахском или русском. Он уже почти поверил — или ему возразили — и не знает,
-        как проверить и что ответить. Готовых инструментов проверки на kk/ru с местным
-        контекстом нет: рынок англоязычный.</p>
+      <h2 data-i18n="pain_h2">Проблема</h2>
+      <p class="lead" data-i18n="pain_lead">Школьнику или студенту в семейный чат прислали «новость» на казахском или русском. Он уже почти поверил — или ему возразили — и не знает, как проверить и что ответить. Готовых инструментов проверки на kk/ru с местным контекстом нет: рынок англоязычный.</p>
     </div>
   </section>
 
   <section id="how">
     <div class="wrap">
-      <h2>Как это работает</h2>
-      <p class="lead">Оркестратор на LLM запускает кастомный агентный цикл — это не
-        обёртка над одним запросом к модели.</p>
+      <h2 data-i18n="how_h2">Как это работает</h2>
+      <p class="lead" data-i18n="how_lead">Оркестратор на LLM запускает кастомный агентный цикл — это не обёртка над одним запросом к модели.</p>
       <div class="grid c3">
-        <div class="card step"><div class="n">1</div><h3>Классификация и разбор</h3>
-          <p>Сообщение делится на атомарные утверждения; факты отделяются от мнений и домыслов.</p></div>
-        <div class="card step"><div class="n">2</div><h3>Маршрутизация по инструментам</h3>
-          <p>Модель сама решает, что звать: локальная база Factcheck.kz, Google Fact Check,
-            детектор манипуляций, KazLLM для казахского контекста.</p></div>
-        <div class="card step"><div class="n">3</div><h3>Объяснимая карточка</h3>
-          <p>Не вердикт, а структура: проверяемые утверждения, подсвеченные манипуляции
-            и вариант вежливого ответа.</p></div>
+        <div class="card step"><div class="n">1</div><h3 data-i18n="step1_t">Классификация и разбор</h3>
+          <p data-i18n="step1_p">Сообщение делится на атомарные утверждения; факты отделяются от мнений и домыслов.</p></div>
+        <div class="card step"><div class="n">2</div><h3 data-i18n="step2_t">Маршрутизация по инструментам</h3>
+          <p data-i18n="step2_p">Модель сама решает, что звать: локальная база Factcheck.kz, Google Fact Check, детектор манипуляций, KazLLM для казахского контекста.</p></div>
+        <div class="card step"><div class="n">3</div><h3 data-i18n="step3_t">Объяснимая карточка</h3>
+          <p data-i18n="step3_p">Не вердикт, а структура: проверяемые утверждения, подсвеченные манипуляции и вариант вежливого ответа.</p></div>
       </div>
     </div>
   </section>
 
   <section id="demo">
     <div class="wrap demo">
-      <h2>Живое демо</h2>
-      <p class="lead">Вставьте сообщение или выберите пример — разбор придёт тот же,
-        что и в боте.</p>
+      <h2 data-i18n="demo_h2">Живое демо</h2>
+      <p class="lead" data-i18n="demo_lead">Вставьте сообщение или выберите пример — разбор придёт тот же, что и в боте.</p>
       <div class="card">
-        <textarea id="text" placeholder="Вставьте пересланное сообщение…"></textarea>
+        <textarea id="text" data-i18n-ph="demo_ph" placeholder="Вставьте пересланное сообщение…"></textarea>
         <div class="chips" id="chips"></div>
-        <div class="row"><button class="btn" id="go" onclick="run()">Разобрать</button></div>
+        <div class="row"><button class="btn" id="go" onclick="run()" data-i18n="demo_btn">Разобрать</button></div>
         <div id="out"></div>
       </div>
     </div>
@@ -159,30 +147,27 @@
 
   <section id="card">
     <div class="wrap">
-      <h2>Что в разборе</h2>
+      <h2 data-i18n="cards_h2">Что в разборе</h2>
       <div class="grid c3">
-        <div class="card"><h3>✅ Проверяемые утверждения</h3>
-          <p>Каждое атомарное утверждение с вердиктом (опровергнуто / подтверждено /
-            данных нет) и ссылкой на источник.</p></div>
-        <div class="card"><h3>🎭 Манипулятивные приёмы</h3>
-          <p>Подсветка конкретных фраз: <mark>апелляция к страху</mark>,
-            цифра без источника, ложная дихотомия и другие.</p></div>
-        <div class="card"><h3>💬 Как ответить</h3>
-          <p>Готовая формулировка вежливого ответа на языке сообщения — то, чем можно
-            поделиться обратно в чат.</p></div>
+        <div class="card"><h3 data-i18n="card1_t">✅ Проверяемые утверждения</h3>
+          <p data-i18n="card1_p">Каждое атомарное утверждение с вердиктом и ссылкой на источник.</p></div>
+        <div class="card"><h3 data-i18n="card2_t">🎭 Манипулятивные приёмы</h3>
+          <p data-i18n="card2_p">Подсветка конкретных фраз: апелляция к страху, цифра без источника, ложная дихотомия и другие.</p></div>
+        <div class="card"><h3 data-i18n="card3_t">💬 Как ответить</h3>
+          <p data-i18n="card3_p">Готовая формулировка вежливого ответа на языке сообщения — то, чем можно поделиться обратно в чат.</p></div>
       </div>
     </div>
   </section>
 
   <section id="tech">
     <div class="wrap">
-      <h2>Технологии</h2>
+      <h2 data-i18n="tech_h2">Технологии</h2>
       <ul class="anat">
-        <li><b>Оркестратор:</b> LLM с агентным tool-use (Fable 5 / Groq Llama 3.3, переключаемо)</li>
-        <li><b>Поиск:</b> multilingual-e5 + pgvector по базе Factcheck.kz (fallback — лексический)</li>
-        <li><b>Локальная модель:</b> KazLLM-8B (llama.cpp) — специалист по казахскому контексту</li>
-        <li><b>Внешний факт-чек:</b> Google Fact Check Tools API</li>
-        <li><b>Бот и бэкенд:</b> aiogram 3 + FastAPI</li>
+        <li data-i18n="tech1">Оркестратор: LLM с агентным tool-use (Fable 5 / Groq Llama 3.3, переключаемо)</li>
+        <li data-i18n="tech2">Поиск: multilingual-e5 + pgvector по базе Factcheck.kz (fallback — лексический)</li>
+        <li data-i18n="tech3">Локальная модель: KazLLM-8B (llama.cpp) — специалист по казахскому контексту</li>
+        <li data-i18n="tech4">Внешний факт-чек: Google Fact Check Tools API</li>
+        <li data-i18n="tech5">Бот и бэкенд: aiogram 3 + FastAPI</li>
       </ul>
     </div>
   </section>
@@ -190,60 +175,127 @@
 
 <footer>
   <div class="wrap">
-    <div class="disc">
-      Aqıqat не выносит вердикт «97% фейк» — открытые детекторы дают лишь ~78% AUC.
-      Мы показываем, что проверяемо, что нашлось в источниках и какие приёмы
-      использованы. Итоговое решение — за вами.
-    </div>
+    <div class="disc" data-i18n="disclaimer">Aqıqat не выносит вердикт «97% фейк» — открытые детекторы дают лишь ~78% AUC. Мы показываем, что проверяемо, что нашлось в источниках и какие приёмы использованы. Итоговое решение — за вами.</div>
     <p style="margin-top:16px">© 2026 Aqıqat · Tech Vision 2026 · <a href="https://t.me/Aqiqat_check_bot" target="_blank" rel="noopener">@Aqiqat_check_bot</a></p>
   </div>
 </footer>
 
 <script>
-  const EXAMPLES=[
+  var I18N = {
+    ru: {
+      nav_how:"Как работает", nav_demo:"Демо", nav_tech:"Технологии", nav_bot:"Открыть бот",
+      hero_h1:"Разбираем «новости», а не пугаем вердиктом",
+      hero_sub:"Перешлите Aqıqat сообщение из чата — покажем, какие утверждения проверяемы, что нашлось в базах фактчекеров и какие манипулятивные приёмы использованы. Без «97% фейк».",
+      btn_tg:"Открыть в Telegram", btn_try:"Попробовать здесь →",
+      stat_checks:"проверок", stat_manip:"с манипуляциями", stat_lang:"языки",
+      pain_h2:"Проблема",
+      pain_lead:"Школьнику или студенту в семейный чат прислали «новость» на казахском или русском. Он уже почти поверил — или ему возразили — и не знает, как проверить и что ответить. Готовых инструментов проверки на kk/ru с местным контекстом нет: рынок англоязычный.",
+      how_h2:"Как это работает",
+      how_lead:"Оркестратор на LLM запускает кастомный агентный цикл — это не обёртка над одним запросом к модели.",
+      step1_t:"Классификация и разбор", step1_p:"Сообщение делится на атомарные утверждения; факты отделяются от мнений и домыслов.",
+      step2_t:"Маршрутизация по инструментам", step2_p:"Модель сама решает, что звать: локальная база Factcheck.kz, Google Fact Check, детектор манипуляций, KazLLM для казахского контекста.",
+      step3_t:"Объяснимая карточка", step3_p:"Не вердикт, а структура: проверяемые утверждения, подсвеченные манипуляции и вариант вежливого ответа.",
+      demo_h2:"Живое демо", demo_lead:"Вставьте сообщение или выберите пример — разбор придёт тот же, что и в боте.",
+      demo_ph:"Вставьте пересланное сообщение…", demo_btn:"Разобрать",
+      cards_h2:"Что в разборе",
+      card1_t:"✅ Проверяемые утверждения", card1_p:"Каждое атомарное утверждение с вердиктом и ссылкой на источник.",
+      card2_t:"🎭 Манипулятивные приёмы", card2_p:"Подсветка конкретных фраз: апелляция к страху, цифра без источника, ложная дихотомия и другие.",
+      card3_t:"💬 Как ответить", card3_p:"Готовая формулировка вежливого ответа на языке сообщения — то, чем можно поделиться обратно в чат.",
+      tech_h2:"Технологии",
+      tech1:"Оркестратор: LLM с агентным tool-use (Fable 5 / Groq Llama 3.3, переключаемо)",
+      tech2:"Поиск: multilingual-e5 + pgvector по базе Factcheck.kz (fallback — лексический)",
+      tech3:"Локальная модель: KazLLM-8B (llama.cpp) — специалист по казахскому контексту",
+      tech4:"Внешний факт-чек: Google Fact Check Tools API",
+      tech5:"Бот и бэкенд: aiogram 3 + FastAPI",
+      disclaimer:"Aqıqat не выносит вердикт «97% фейк» — открытые детекторы дают лишь ~78% AUC. Мы показываем, что проверяемо, что нашлось в источниках и какие приёмы использованы. Итоговое решение — за вами."
+    },
+    kk: {
+      nav_how:"Қалай жұмыс істейді", nav_demo:"Демо", nav_tech:"Технологиялар", nav_bot:"Ботты ашу",
+      hero_h1:"«Жаңалықтарды» талдаймыз, үкіммен қорқытпаймыз",
+      hero_sub:"Aqıqat-қа чаттан хабарламаны жіберіңіз — қай тұжырымдар тексерілетінін, фактчек базаларынан не табылғанын және қандай манипуляциялық тәсілдер қолданылғанын көрсетеміз. «97% жалған» деп айтпаймыз.",
+      btn_tg:"Telegram-да ашу", btn_try:"Осында байқап көру →",
+      stat_checks:"тексеру", stat_manip:"манипуляциямен", stat_lang:"тілдер",
+      pain_h2:"Мәселе",
+      pain_lead:"Оқушыға немесе студентке отбасылық чатқа қазақ не орыс тілінде «жаңалық» жіберді. Ол сеніп те қалды — не оған қарсы дау айтты — және оны қалай тексеруді, не деп жауап беруді білмейді. kk/ru тілдерінде жергілікті контекспен тексеру құралдары жоқ: нарық ағылшын тілді.",
+      how_h2:"Қалай жұмыс істейді",
+      how_lead:"Оркестратор LLM негізінде кастомды агенттік цикл жүргізеді — бұл модельге бір сұраудың үстіндегі қабық емес.",
+      step1_t:"Классификация және талдау", step1_p:"Хабарлама атомарлық тұжырымдарға бөлінеді; фактілер пікірлер мен болжамдардан ажыратылады.",
+      step2_t:"Құралдар бойынша маршруттау", step2_p:"Модель өзі шешеді: Factcheck.kz жергілікті базасы, Google Fact Check, манипуляция детекторы, қазақ контексті үшін KazLLM.",
+      step3_t:"Түсіндірмелі карточка", step3_p:"Үкім емес, құрылым: тексерілетін тұжырымдар, белгіленген манипуляциялар және сыпайы жауап нұсқасы.",
+      demo_h2:"Тірі демо", demo_lead:"Хабарламаны қойыңыз немесе мысалды таңдаңыз — талдау боттағыдай болады.",
+      demo_ph:"Жіберілген хабарламаны қойыңыз…", demo_btn:"Талдау",
+      cards_h2:"Талдауда не бар",
+      card1_t:"✅ Тексерілетін тұжырымдар", card1_p:"Әр атомарлық тұжырым үкіммен және дереккөзге сілтемемен.",
+      card2_t:"🎭 Манипуляциялық тәсілдер", card2_p:"Нақты фразаларды белгілеу: қорқынышқа арқау салу, дереккөзсіз сан, жалған дилемма және т.б.",
+      card3_t:"💬 Қалай жауап беру", card3_p:"Хабарлама тілінде дайын сыпайы жауап — чатқа кері бөлісуге болатын нәрсе.",
+      tech_h2:"Технологиялар",
+      tech1:"Оркестратор: агенттік tool-use LLM (Fable 5 / Groq Llama 3.3, ауыстырылады)",
+      tech2:"Іздеу: Factcheck.kz базасы бойынша multilingual-e5 + pgvector (fallback — лексикалық)",
+      tech3:"Жергілікті модель: KazLLM-8B (llama.cpp) — қазақ контексті маманы",
+      tech4:"Сыртқы фактчек: Google Fact Check Tools API",
+      tech5:"Бот пен бэкенд: aiogram 3 + FastAPI",
+      disclaimer:"Aqıqat «97% жалған» деген үкім шығармайды — ашық детекторлар небәрі ~78% AUC береді. Біз нені тексеруге болатынын, дереккөздерде не табылғанын және қандай тәсілдер қолданылғанын көрсетеміз. Соңғы шешім — сізде."
+    }
+  };
+  var LANG = "ru";
+  function setLang(l){
+    LANG = (l === "kk") ? "kk" : "ru";
+    var d = I18N[LANG];
+    document.documentElement.lang = LANG;
+    document.querySelectorAll("[data-i18n]").forEach(function(el){
+      var k = el.getAttribute("data-i18n"); if(d[k]!=null) el.textContent = d[k];
+    });
+    document.querySelectorAll("[data-i18n-ph]").forEach(function(el){
+      var k = el.getAttribute("data-i18n-ph"); if(d[k]!=null) el.placeholder = d[k];
+    });
+    document.getElementById("lang-ru").classList.toggle("on", LANG==="ru");
+    document.getElementById("lang-kk").classList.toggle("on", LANG==="kk");
+    try{ localStorage.setItem("lang", LANG); }catch(e){}
+  }
+
+  var EXAMPLES=[
     "Врачи скрывают, что вакцина X вызвала 5000 смертей в Алматы. Срочно перешлите всем!",
     "Мемлекет барлық зейнетақыны цифрлық теңгеге мәжбүрлеп ауыстырады, билік жасырып отыр.",
     "Учёные доказали, что фторирование воды снижает сопротивляемость населения.",
-    "Средняя зарплата в Казахстане превысила 400 тысяч тенге."
+    "Или ты с нами, или ты против народа — третьего не дано."
   ];
-  const chips=document.getElementById('chips');
-  EXAMPLES.forEach(t=>{const c=document.createElement('span');c.className='chip';
+  var chips=document.getElementById('chips');
+  EXAMPLES.forEach(function(t){var c=document.createElement('span');c.className='chip';
     c.textContent=t.length>46?t.slice(0,45)+'…':t;
-    c.onclick=()=>{document.getElementById('text').value=t;};chips.appendChild(c);});
+    c.onclick=function(){document.getElementById('text').value=t;};chips.appendChild(c);});
 
   async function run(){
-    const btn=document.getElementById('go'),out=document.getElementById('out');
-    const text=document.getElementById('text').value.trim();
-    if(!text){out.className='show';out.textContent='Введите текст.';return;}
-    btn.disabled=true;out.className='show';out.innerHTML='<span class="spin">Разбираю…</span>';
+    var btn=document.getElementById('go'),out=document.getElementById('out');
+    var text=document.getElementById('text').value.trim();
+    if(!text){out.className='show';out.textContent='...';return;}
+    btn.disabled=true;out.className='show';out.textContent='…';
     try{
-      const r=await fetch('/analyze',{method:'POST',headers:{'content-type':'application/json'},
-        body:JSON.stringify({text})});
-      const d=await r.json();
+      var r=await fetch('/analyze',{method:'POST',headers:{'content-type':'application/json'},
+        body:JSON.stringify({text:text})});
+      var d=await r.json();
       out.textContent=d.chat_text+'\n';
-      const a=document.createElement('a');a.href=d.url;a.target='_blank';
-      a.textContent='Открыть полный разбор →';out.appendChild(a);
+      var a=document.createElement('a');a.href=d.url;a.target='_blank';
+      a.textContent=LANG==='kk'?'Толық талдауды ашу →':'Открыть полный разбор →';out.appendChild(a);
       loadStats();
     }catch(e){out.textContent='Ошибка: '+e;}finally{btn.disabled=false;}
   }
 
   async function loadStats(){
-    try{const d=await (await fetch('/metrics')).json();
-      document.getElementById('stChecks').textContent=d.checks_total??'—';
-      const mr=d.manipulation_rate!=null?Math.round(d.manipulation_rate*100)+'%':'—';
-      document.getElementById('stManip').textContent=mr;
+    try{var d=await (await fetch('/metrics')).json();
+      document.getElementById('stChecks').textContent=d.checks_total!=null?d.checks_total:'—';
+      document.getElementById('stManip').textContent=d.manipulation_rate!=null?Math.round(d.manipulation_rate*100)+'%':'—';
     }catch(e){}
   }
   loadStats();
 
   function toggleTheme(){
-    const cur=document.documentElement.getAttribute('data-theme');
-    const next=cur==='dark'?'light':(cur==='light'?'dark':
-      (matchMedia('(prefers-color-scheme: dark)').matches?'light':'dark'));
+    var cur=document.documentElement.getAttribute('data-theme');
+    var next=cur==='dark'?'light':(cur==='light'?'dark':(matchMedia('(prefers-color-scheme: dark)').matches?'light':'dark'));
     document.documentElement.setAttribute('data-theme',next);
     try{localStorage.setItem('theme',next);}catch(e){}
   }
-  try{const t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+  try{var th=localStorage.getItem('theme');if(th)document.documentElement.setAttribute('data-theme',th);}catch(e){}
+  try{ setLang(localStorage.getItem('lang')||'ru'); }catch(e){ setLang('ru'); }
 </script>
 </body>
 </html>
