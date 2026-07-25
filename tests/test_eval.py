@@ -3,9 +3,9 @@ from scripts.eval import GATES, run_eval
 
 def test_eval_meets_gates():
     report = run_eval()
-    assert report["cases"] >= 8
-    assert report["lang_accuracy"] >= GATES["lang_accuracy"]
-    assert report["manip_false_positives"] <= GATES["manip_false_positives"]
-    assert report["opinion_accuracy"] >= GATES["opinion_accuracy"]
-    # Surface any residual gaps in the assertion message for CI logs.
-    assert report["manip_recall"] >= 0.8, report["mismatches"]
+    assert report["cases"] >= 10
+    for key, threshold in GATES.items():
+        assert report[key] >= threshold, (key, report[key], report["mismatches"])
+    # Detector should have near-perfect recall and only the documented FP.
+    assert report["manip_fn"] == 0, report["mismatches"]
+    assert report["manip_fp"] <= 1, report["mismatches"]
