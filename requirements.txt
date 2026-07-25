@@ -10,6 +10,9 @@ python-dotenv==1.0.1
 # --- Telegram bot ---
 aiogram==3.15.0
 
+# --- Image-manipulation signal (§1 deepfake secondary signal, ELA + EXIF) ---
+Pillow==11.1.0
+
 # --- Orchestrator LLM (Fable 5 / Haiku 4.5). Optional: the app runs with a
 #     deterministic mock when ANTHROPIC_API_KEY is unset. ---
 anthropic==0.42.0
@@ -20,8 +23,7 @@ anthropic==0.42.0
 # pgvector on Supabase/Postgres (DATABASE_URL set):
 # psycopg[binary]==3.2.3
 # pgvector==0.3.6
-# OCR from photos (ENABLE_OCR=true):
+# OCR from photos (ENABLE_OCR=true) — Pillow is already a core dep above:
 # pytesseract==0.3.13   (requires system `tesseract-ocr` with kaz+rus langpacks)
-# Pillow==11.1.0
 # KazLLM-8B (KAZLLM_BASE_URL set) runs as an external llama.cpp server — no pip dep;
 # the app talks to it over HTTP via httpx (already a core dependency).
