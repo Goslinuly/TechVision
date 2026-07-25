@@ -3,7 +3,54 @@
     "id": "vax-almaty-hoax",
     "text": "Врачи скрывают, что вакцина X вызвала 5000 смертей в Алматы. Срочно перешлите всем!",
     "expect_lang": "ru",
-    "expect_manipulations": ["fear_appeal", "unsourced_number", "urgency"],
+    "manip_labels": ["fear_appeal", "unsourced_number", "urgency"],
+    "expect_has_opinion": true,
+    "expect_verdict_any": "refuted"
+  },
+  {
+    "id": "number-with-source",
+    "text": "По данным Минздрава, за год зарегистрировано 5000 случаев гриппа.",
+    "expect_lang": "ru",
+    "manip_labels": []
+  },
+  {
+    "id": "opinion-only",
+    "text": "Мне кажется, завтра погода испортится и всё будет плохо.",
+    "expect_lang": "ru",
+    "manip_labels": [],
+    "expect_has_opinion": true
+  },
+  {
+    "id": "pure-manipulation",
+    "text": "Срочно! Они скрывают правду от нас, власти врут!",
+    "expect_lang": "ru",
+    "manip_labels": ["fear_appeal", "urgency", "us_vs_them"],
+    "expect_has_opinion": true
+  },
+  {
+    "id": "authority-appeal",
+    "text": "Учёные доказали, что фторирование воды снижает сопротивляемость населения.",
+    "expect_lang": "ru",
+    "manip_labels": ["authority_appeal"],
+    "expect_verdict_any": "refuted"
+  },
+  {
+    "id": "neutral-fact",
+    "text": "В Казахстане семнадцать областей и три города республиканского значения.",
+    "expect_lang": "ru",
+    "manip_labels": []
+  },
+  {
+    "id": "false-dichotomy",
+    "text": "Или ты с нами, или ты против народа — третьего не дано.",
+    "expect_lang": "ru",
+    "manip_labels": ["false_dichotomy"]
+  },
+  {
+    "id": "chip-newborn-hoax",
+    "text": "В Казахстане вводят обязательные чипы для новорождённых, врачи это скрывают.",
+    "expect_lang": "ru",
+    "manip_labels": ["fear_appeal"],
     "expect_has_opinion": true,
     "expect_verdict_any": "refuted"
   },
@@ -11,61 +58,28 @@
     "id": "digital-tenge-kk",
     "text": "Мемлекет барлық зейнетақыны цифрлық теңгеге мәжбүрлеп ауыстырады, билік жасырып отыр.",
     "expect_lang": "kk",
-    "expect_manipulations": ["us_vs_them"],
+    "manip_labels": ["fear_appeal", "us_vs_them"],
     "expect_has_opinion": true
-  },
-  {
-    "id": "salary-true",
-    "text": "Средняя зарплата в Казахстане превысила 400 тысяч тенге.",
-    "expect_lang": "ru",
-    "expect_verdict_any": "supported"
-  },
-  {
-    "id": "number-with-source",
-    "text": "По данным Минздрава, за год зарегистрировано 5000 случаев гриппа.",
-    "expect_lang": "ru",
-    "forbid_manipulations": ["unsourced_number"]
-  },
-  {
-    "id": "opinion-only",
-    "text": "Мне кажется, завтра погода испортится и всё будет плохо.",
-    "expect_lang": "ru",
-    "expect_has_opinion": true,
-    "forbid_manipulations": ["unsourced_number"]
-  },
-  {
-    "id": "pure-manipulation",
-    "text": "Срочно! Они скрывают правду от нас, власти врут!",
-    "expect_lang": "ru",
-    "expect_manipulations": ["fear_appeal", "urgency", "us_vs_them"],
-    "expect_has_opinion": true
-  },
-  {
-    "id": "chip-newborn-hoax",
-    "text": "В Казахстане вводят обязательные чипы для новорождённых, врачи это скрывают.",
-    "expect_lang": "ru",
-    "expect_manipulations": ["fear_appeal"],
-    "expect_has_opinion": true,
-    "expect_verdict_any": "refuted"
   },
   {
     "id": "kk-urgency",
     "text": "Жедел! Барлығына жіберіңдер, билік ақиқатты жасырып отыр.",
     "expect_lang": "kk",
-    "expect_manipulations": ["urgency"],
+    "manip_labels": ["fear_appeal", "urgency", "us_vs_them"],
     "expect_has_opinion": true
   },
   {
-    "id": "neutral-fact",
-    "text": "В Казахстане семнадцать областей и три города республиканского значения.",
+    "id": "salary-stat",
+    "text": "Средняя зарплата в Казахстане превысила 400 тысяч тенге.",
     "expect_lang": "ru",
-    "forbid_manipulations": ["fear_appeal", "us_vs_them", "urgency"]
+    "manip_labels": [],
+    "expect_verdict_any": "supported",
+    "known_fp": "unsourced_number срабатывает на нейтральной статистике — задокументированное ограничение rule-based детектора"
   },
   {
-    "id": "authority-appeal",
-    "text": "Учёные доказали, что фторирование воды снижает сопротивляемость населения.",
+    "id": "expert-fear",
+    "text": "Эксперты утверждают, что вышки 5G — это смертельная угроза для всех.",
     "expect_lang": "ru",
-    "expect_manipulations": ["authority_appeal"],
-    "expect_verdict_any": "refuted"
+    "manip_labels": ["authority_appeal", "fear_appeal"]
   }
 ]

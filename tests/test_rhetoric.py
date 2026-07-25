@@ -32,6 +32,17 @@ def test_urgency_and_kazakh_labels():
     assert any(m.technique == "urgency" for m in kk)
 
 
+def test_false_dichotomy_multiword():
+    items = rhetoric.analyze("Или ты с нами, или ты против народа", Lang.RU)
+    assert any(m.technique == "false_dichotomy" for m in items)
+
+
+def test_kk_us_vs_them_with_gap():
+    # "билік ... жасыру" with a word in between must still be caught.
+    items = rhetoric.analyze("билік ақиқатты жасырып отыр", Lang.KK)
+    assert any(m.technique == "us_vs_them" for m in items)
+
+
 def test_spans_are_sorted():
     items = rhetoric.analyze("Срочно! Врачи скрывают 5000 смертей", Lang.RU)
     starts = [m.start for m in items]
