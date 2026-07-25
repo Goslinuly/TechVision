@@ -28,7 +28,7 @@ from . import store
 from .config import get_settings
 from .models import VERDICT_EMOJI
 from .orchestrator import analyze
-from .presenter import chat_card, highlight_source
+from .presenter import chat_card, highlight_source, web_card_context
 from .services import cache, embeddings, kazllm, metrics, vectorstore
 from .services.ocr import extract_text
 
@@ -150,6 +150,8 @@ def web_card(request: Request, card_id: str):
             "card": card,
             "emoji": VERDICT_EMOJI,
             "highlighted": highlight_source(card),
+            "base_url": get_settings().public_base_url,
+            **web_card_context(card),
         },
     )
 
