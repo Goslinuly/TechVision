@@ -46,6 +46,55 @@ _VERDICT_TEXT = {
 }
 
 
+# Web card: localized section headers + verdict CSS classes.
+_WEB_LABELS = {
+    Lang.RU: {
+        "source": "Исходное сообщение",
+        "claims": "Проверяемые утверждения",
+        "manip": "🎭 Манипулятивные приёмы",
+        "reply": "💬 Как можно ответить",
+        "confidence": "уверенность",
+        "share": "Поделиться в Telegram",
+        "opinion_note": "Не факт, а предположение — не проверяется",
+        "disclaimer": (
+            "Aqıqat не выносит вердикт «97% фейк». Мы показываем, что проверяемо, "
+            "что нашлось в источниках и какие приёмы использованы. Решение — за вами."
+        ),
+    },
+    Lang.KK: {
+        "source": "Бастапқы хабарлама",
+        "claims": "Тексерілетін тұжырымдар",
+        "manip": "🎭 Манипуляциялық тәсілдер",
+        "reply": "💬 Қалай жауап беруге болады",
+        "confidence": "сенімділік",
+        "share": "Telegram-да бөлісу",
+        "opinion_note": "Дерек емес, болжам — тексерілмейді",
+        "disclaimer": (
+            "Aqıqat «97% жалған» деген үкім шығармайды. Біз нені тексеруге болатынын, "
+            "дереккөздерде не табылғанын және қандай тәсілдер қолданылғанын көрсетеміз. "
+            "Шешім — сізде."
+        ),
+    },
+}
+
+_VERDICT_CLASS = {
+    Verdict.REFUTED: "v-refuted",
+    Verdict.SUPPORTED: "v-supported",
+    Verdict.NOT_FOUND: "v-notfound",
+    Verdict.NOT_CHECKABLE: "v-opinion",
+}
+
+
+def web_card_context(card: Card) -> dict:
+    """Extra template context for the web card: localized labels + verdict
+    text/CSS class maps keyed by Verdict enum."""
+    return {
+        "labels": _WEB_LABELS[card.lang],
+        "verdict_text": _VERDICT_TEXT[card.lang],
+        "verdict_class": _VERDICT_CLASS,
+    }
+
+
 def chat_card(card: Card, base_url: str) -> str:
     L = _L[card.lang]
     vt = _VERDICT_TEXT[card.lang]
