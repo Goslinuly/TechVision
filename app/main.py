@@ -38,6 +38,12 @@ log = logging.getLogger("aqiqat")
 _TEMPLATES = Jinja2Templates(directory=str(Path(__file__).parent / "templates"))
 _USE_POLLING = True  # set False if deploying with a real Telegram webhook
 
+# Server-side input cap (security §): untrusted forwarded text is DATA, not code.
+# Mirrors the bot's 3500-char truncation with a small margin; bounds LLM cost and
+# blunts oversized-payload / prompt-stuffing attempts. Text longer than this is
+# truncated, never rejected, so the user still gets a breakdown.
+MAX_INPUT_CHARS = 4000
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -147,6 +153,8 @@ def analyze_endpoint(body: AnalyzeIn) -> JSONResponse:
             )
     if not text:
         raise HTTPException(status_code=400, detail="empty text")
+    if len(text) > MAX_INPUT_CHARS:
+        text = text[:MAX_INPUT_CHARS]
     card = analyze(text)
     store.save(card)
     return JSONResponse(
