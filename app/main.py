@@ -29,7 +29,7 @@ from .config import get_settings
 from .models import VERDICT_EMOJI
 from .orchestrator import analyze
 from .presenter import chat_card, highlight_source, web_card_context
-from .services import cache, embeddings, kazllm, metrics, vectorstore
+from .services import cache, embeddings, image_forensics, kazllm, metrics, vectorstore
 from .services.ocr import extract_text
 
 logging.basicConfig(level=logging.INFO)
@@ -100,10 +100,29 @@ def health() -> dict:
             else "lexical"
         ),
         "kazllm": kazllm.available(),
+        "image_signal": image_forensics.available(),
         "google_factcheck": bool(s.google_factcheck_api_key),
         "cards_stored": store.count(),
         **cache.stats(),
     }
+
+
+class ImageIn(BaseModel):
+    image_base64: str
+
+
+@app.post("/image-signal")
+def image_signal(body: ImageIn) -> dict:
+    """Secondary image-manipulation signal (§1) — never a verdict. Demo-only."""
+    if not image_forensics.available():
+        raise HTTPException(
+            status_code=503, detail="image signal unavailable (Pillow not installed)"
+        )
+    try:
+        image_bytes = base64.b64decode(body.image_base64, validate=True)
+    except (binascii.Error, ValueError):
+        raise HTTPException(status_code=400, detail="invalid base64 image")
+    return image_forensics.analyze(image_bytes)
 
 
 @app.get("/metrics")
