@@ -1,0 +1,44 @@
+MIT License
+
+Copyright (c) 2026 Aqıqat team (TechVision, Zone 13)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------------------------------------------------------
+
+## Сторонние компоненты (Third-party components)
+
+Лицензия MIT выше распространяется **только на код этого репозитория**.
+Сторонние модели, данные и сервисы остаются под своими лицензиями и условиями —
+их ограничения перечислены здесь явно, потому что одно из них влияет на
+монетизацию.
+
+| Компонент | Лицензия / условия | Что это значит для нас |
+|---|---|---|
+| **KazLLM-8B** (ISSAI) — веса модели | **CC-BY-NC 4.0** (некоммерческое использование) | Соц-версия использует KazLLM легально. Коммерческая версия — на модели без NC-ограничения; архитектура и контракты при этом не меняются (`app/services/kazllm.py` — один HTTP-адаптер). Подробно: `SUSTAINABILITY.md §7`, `COSTS.md` |
+| **multilingual-e5-base** (intfloat) | MIT | без ограничений на использование |
+| **Groq API** (Llama 3.3 70B) | условия сервиса Groq; модель — Llama 3.3 Community License | коммерческое использование допускается в рамках условий провайдера |
+| **Anthropic API** (Claude) | условия сервиса Anthropic | опциональная альтернативная конфигурация |
+| **Google Fact Check Tools API** | условия сервиса Google | ограничения по квотам и атрибуции |
+| **Данные Factcheck.kz** | авторские права Factcheck.kz | храним ссылки, заголовки и метки вердиктов как цитирование с обязательной атрибуцией источника в карточке; не републикуем статьи целиком |
+| **Tesseract OCR** | Apache 2.0 | без ограничений |
+| Python-зависимости (`requirements.txt`) | MIT / BSD / Apache 2.0 | совместимы с MIT |
+
+Демонстрационные материалы с манипуляциями над изображениями/голосом создаются
+только на материале членов команды и с их согласия (`README.md` §Комплаенс).
