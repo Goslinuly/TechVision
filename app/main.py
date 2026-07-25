@@ -45,9 +45,10 @@ async def lifespan(app: FastAPI):
     poll_task = None
     bot = None
     if settings.bot_enabled and _USE_POLLING:
-        from .bot import build_bot, dp
+        from .bot import build_bot, dp, set_commands
 
         bot = build_bot()
+        await set_commands(bot)
         log.info("Starting Telegram bot (long-polling)…")
         poll_task = asyncio.create_task(dp.start_polling(bot))
     else:
